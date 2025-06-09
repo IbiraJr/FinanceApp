@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct CreateBudget: View {
+struct CreateBudgetView: View {
     @StateObject var viewModel: BudgetViewModel
+    @Environment(\.dismiss) private var dismiss
     @State private var title: String = ""
     @State private var value: String = ""
     
@@ -25,9 +26,10 @@ struct CreateBudget: View {
             Button("Save") {
                 if let totalValue = Double(value) {
                     viewModel.createBudget(title: title, totalValue: totalValue)
+                    dismiss()
                 }
             }
-
         }
+        .navigationTitle("Create Budget")
     }
 }

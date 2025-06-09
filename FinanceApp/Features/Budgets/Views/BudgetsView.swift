@@ -8,12 +8,23 @@
 import SwiftUI
 
 struct BudgetsView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject var viewModel: BudgetViewModel
     
     var body: some View {
         NavigationView {
             content
                 .navigationTitle("Budgets")
+                .toolbar {
+                    NavigationLink(destination: CreateBudgetView(viewModel: viewModel), label: {
+                        Image(systemName: "plus")
+                    })
+                    Button {
+                        authViewModel.signOut()
+                    } label: {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                    }
+                }
         }
     }
     @ViewBuilder
@@ -31,7 +42,7 @@ struct BudgetsView: View {
             else {
                 List(viewModel.budgets) { budget in
                     
-                    NavigationLink(destination: UpdateBudgetView(budget: budget)) {
+                    NavigationLink(destination: BudgetDetailView(viewModel: BudgetDetailViewModel(budget: budget))) {
                         VStack(alignment: .leading) {
                             Text(budget.title)
                                 .font(.headline)

@@ -13,7 +13,7 @@ protocol BudgetServiceProtocol {
     func fetchBudgets(for userId: String) -> AnyPublisher<[BudgetModel],Error>
     func createBudget(_ budget: BudgetModel) -> AnyPublisher<Void,Error>
     func deleteBudget(_ budgetId: String) -> AnyPublisher<Void,Error>
-    func updateBudget(_ budget: BudgetModel) -> AnyPublisher<BudgetModel,Error>
+    func updateBudget(_ budget: BudgetModel) -> AnyPublisher<Void,Error>
     
 }
 
@@ -72,11 +72,22 @@ struct BudgetService: BudgetServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func updateBudget(_ budget: BudgetModel) -> AnyPublisher<BudgetModel, Error> {
-        Future<BudgetModel, Error> { promise in
-//            self.db.collection("budgets").document( budget.id ).updateData(budget)
-                
+    func updateBudget(_ budget: BudgetModel) -> AnyPublisher<Void, Error> {
+        
+        Future<Void, Error> { promise in
+            if let budgetId = budget.id {
+                do {
+                  _ = try self.db.collection( "budgets" ).document( budgetId ).setData(from: budget)
+                    promise(.success(()))
+                }catch {
+                    promise(.failure(error))
+                }
+            } else {
+                promise(.failure(NSError(domain: "BudgetService", code: 1001, userInfo: nil)))
+            }
+            
         }
+        .eraseToAnyPublisher()
     }
     
 }
