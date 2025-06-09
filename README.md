@@ -1,6 +1,6 @@
-# 💰 BudgetApp
+# 💰 FinanceApp
 
-**BudgetApp** is a modern iOS application built with **SwiftUI**, **Firebase**, and **Combine**. It allows users to sign in, create, view, edit, and delete personal budget entries with a clean and reactive interface.
+**FinanceApp** is a modern iOS application built with **SwiftUI**, **Firebase**, and **Combine**. It allows users to sign in, create, view, edit, and delete personal budget entries with a clean and reactive interface.
 
 ---
 
